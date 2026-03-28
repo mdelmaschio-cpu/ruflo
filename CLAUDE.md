@@ -1,8 +1,12 @@
-# Claude Code Configuration - Ruflo v3.5
+# Claude Code Configuration - Ruflo v3.5.42
 
-> **Ruflo v3.5** (2026-02-27) — First major stable release. Formerly "Claude Flow".
+> **Ruflo v3.5.42** (2026-03-28) — Latest stable release. Formerly "Claude Flow".
 > 5,900+ commits, 55 alpha iterations, 259 MCP tools, 60+ agents, 8 AgentDB controllers.
-> Packages: `@claude-flow/cli@3.5.0`, `claude-flow@3.5.0`, `ruflo@3.5.0`
+> Packages: `@claude-flow/cli@3.5.42`, `claude-flow@3.5.42`, `ruflo@3.5.42`
+>
+> **Recent changes (v3.5.42):** RuVector WASM integration + real semantic embeddings, hive-mind
+> status reads real agent state, MCP server self-kill prevention, security audit fixes,
+> intelligence vector store + statusline accuracy, CPU-proportional daemon load control.
 
 ## Behavioral Rules (Always Enforced)
 
