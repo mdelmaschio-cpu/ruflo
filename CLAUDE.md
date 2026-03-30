@@ -6,7 +6,9 @@
 >
 > **Recent changes (v3.5.42):** RuVector WASM integration + real semantic embeddings, hive-mind
 > status reads real agent state, MCP server self-kill prevention, security audit fixes,
-> intelligence vector store + statusline accuracy, CPU-proportional daemon load control.
+> intelligence vector store + statusline accuracy, CPU-proportional daemon load control,
+> new `cleanup` command (removes .claude, .swarm, data, memory artifacts), MCP task-tools
+> additions, memory-initializer improvements, 38 total CLI commands (up from 26).
 
 ## Behavioral Rules (Always Enforced)
 
@@ -42,7 +44,7 @@
 
 | Package | Path | Purpose |
 |---------|------|---------|
-| `@claude-flow/cli` | `v3/@claude-flow/cli/` | CLI entry point (26 commands) |
+| `@claude-flow/cli` | `v3/@claude-flow/cli/` | CLI entry point (38 commands) |
 | `@claude-flow/codex` | `v3/@claude-flow/codex/` | Dual-mode Claude + Codex collaboration |
 | `@claude-flow/guidance` | `v3/@claude-flow/guidance/` | Governance control plane |
 | `@claude-flow/hooks` | `v3/@claude-flow/hooks/` | 17 hooks + 12 workers |
@@ -336,7 +338,7 @@ This project is configured with Claude Flow V3 (Anti-Drift Defaults):
 - **HNSW Indexing**: Enabled (150x-12,500x faster)
 - **Neural Learning**: Enabled (SONA)
 
-## V3 CLI Commands (26 Commands, 140+ Subcommands)
+## V3 CLI Commands (38 Commands, 140+ Subcommands)
 
 ### Core Commands
 
@@ -373,6 +375,18 @@ This project is configured with Claude Flow V3 (Anti-Drift Defaults):
 | `process` | 4 | Background process management |
 | `doctor` | 1 | System diagnostics with health checks |
 | `completions` | 4 | Shell completions (bash, zsh, fish, powershell) |
+| `ruvector` | 6 | RuVector PostgreSQL bridge (embed, search, index, sync, status, config) |
+| `analyze` | 4 | Code analysis and codebase intelligence |
+| `route` | 3 | Q-learning task routing (route, train, status) |
+| `progress` | 3 | Task progress tracking and reporting |
+| `issues` | 4 | Issue claims management (ADR-016) |
+| `update` | 2 | Auto-update system (check, apply) |
+| `benchmark` | 4 | Pre-training, neural, and memory benchmarking |
+| `guidance` | 5 | Governance control plane management |
+| `appliance` | 6 | RVFA appliance management (create, list, deploy, status, logs, destroy) |
+| `appliance-advanced` | 4 | Advanced appliance operations |
+| `transfer-store` | 3 | Cross-platform learning transfer store |
+| `cleanup` | 3 | Remove project artifacts (.claude, .swarm, data, memory directories) |
 
 ### Quick CLI Examples
 
@@ -400,6 +414,15 @@ npx claude-flow@v3alpha security scan --depth full
 
 # Performance benchmark
 npx claude-flow@v3alpha performance benchmark --suite all
+
+# Clean up all project artifacts
+npx claude-flow@v3alpha cleanup
+
+# Clean up but keep config
+npx claude-flow@v3alpha cleanup --keep-config
+
+# RuVector semantic search
+npx claude-flow@v3alpha ruvector search --query "authentication patterns"
 ```
 
 ## Headless Background Instances (claude -p)
