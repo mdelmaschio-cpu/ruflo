@@ -485,11 +485,29 @@ const exportProducts = asyncHandler(async (req, res) => {
   const products = await Product.find(filter).select('-reviews');
   
   if (format === 'csv') {
-    // In a real application, you would convert to CSV format
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', 'attachment; filename=products.csv');
-    // TODO: Implement CSV conversion
-    res.send('CSV export not implemented yet');
+    const headers = ['name', 'slug', 'sku', 'category', 'subcategory', 'brand', 'price', 'comparePrice', 'currency', 'status', 'inventoryQuantity', 'createdAt'];
+    const escapeField = (val) => {
+      if (val === null || val === undefined) return '';
+      const str = String(val);
+      return str.includes(',') || str.includes('"') || str.includes('\n') ? `"${str.replace(/"/g, '""')}"` : str;
+    };
+    const rows = products.map(product => [
+      product.name,
+      product.slug,
+      product.sku,
+      product.category,
+      product.subcategory,
+      product.brand,
+      product.price,
+      product.comparePrice,
+      product.currency,
+      product.status,
+      product.inventory?.quantity,
+      product.createdAt,
+    ].map(escapeField).join(','));
+    res.send([headers.join(','), ...rows].join('\n'));
   } else {
     res.json({
       success: true,

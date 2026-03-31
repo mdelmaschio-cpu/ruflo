@@ -345,11 +345,29 @@ const exportOrders = asyncHandler(async (req, res) => {
   const result = await Order.findOrders({ ...filters, limit: 1000 });
   
   if (format === 'csv') {
-    // In a real application, you would convert to CSV format
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', 'attachment; filename=orders.csv');
-    // TODO: Implement CSV conversion
-    res.send('CSV export not implemented yet');
+    const headers = ['orderNumber', 'status', 'user', 'subtotal', 'taxAmount', 'shippingAmount', 'discountAmount', 'totalAmount', 'shippingMethod', 'paymentMethod', 'paymentStatus', 'createdAt'];
+    const escapeField = (val) => {
+      if (val === null || val === undefined) return '';
+      const str = String(val);
+      return str.includes(',') || str.includes('"') || str.includes('\n') ? `"${str.replace(/"/g, '""')}"` : str;
+    };
+    const rows = result.orders.map(order => [
+      order.orderNumber,
+      order.status,
+      order.user,
+      order.subtotal,
+      order.taxAmount,
+      order.shippingAmount,
+      order.discountAmount,
+      order.totalAmount,
+      order.shippingMethod,
+      order.payment?.method,
+      order.payment?.status,
+      order.createdAt,
+    ].map(escapeField).join(','));
+    res.send([headers.join(','), ...rows].join('\n'));
   } else {
     res.json({
       success: true,
